@@ -57,7 +57,7 @@ walk(executionPath, (err, results) => {
             importNames.push(`${prefix}_${name}`)
         })
 
-        importNames.forEach(x => x = x.replace("/\\-/g", "_"))
+        importNames.forEach(x => x = x.replace(/\\-/g, "_"))
 
         for (let i = 0; i < shorten.length; i++) {
             imports += `let ${importNames[i]} = require('${shorten[i]}')\n`
