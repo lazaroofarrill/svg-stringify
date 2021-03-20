@@ -1,6 +1,6 @@
 {
   "name": "iconset-generator",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
