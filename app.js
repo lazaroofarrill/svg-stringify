@@ -54,8 +54,10 @@ walk(executionPath, (err, results) => {
             let prefix = x.substring(start, end)
             prefix = camelcase(prefix)
             let name = x.substring(x.lastIndexOf("/") + 1, x.lastIndexOf("."))
-            importNames.push(`${prefix}_${name}`.replace("-", "_"))
+            importNames.push(`${prefix}_${name}`)
         })
+
+        importNames.forEach(x => x.replace("-", "_"))
 
         for (let i = 0; i < shorten.length; i++) {
             imports += `let ${importNames[i]} = require('${shorten[i]}')\n`
