@@ -58,14 +58,20 @@ walk(executionPath, (err, results) => {
         })
 
         for (let i = 0; i < shorten.length; i++) {
-            imports += `let ${importNames[i]} = require('${shorten[i]}')\n`
+            imports += `const ${importNames[i]} = require('${shorten[i]}')\n`
         }
-        imports += "let icons = {\n"
+        imports += "\nconst icons = {\n"
         importNames.forEach(x => {
             imports += `"${x}": ${x},\n`
         })
         imports += "}\n" +
-            "export { icons }"
+            "export { icons }\n"
+
+        imports += `export { `
+        importNames.forEach( x => {
+            imports += `${x}, `
+        })
+        imports += "}"
 
 
         fs.writeFile(loaderPath, imports, (myError) => {
