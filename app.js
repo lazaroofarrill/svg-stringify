@@ -56,33 +56,15 @@ if (fs.existsSync(loaderPath)) {
 walk(executionPath, (err, results) => {
         if (err) console.log(err.message)
         else {
-            // let shorten = results.map(x => x.replace(path.resolve(executionPath), "."))
 
 
             let strings = []
             results = results.filter(x => x.endsWith('.svg'))
-            loadStrings(results).then((data) => {
-
-            }).catch(err => {
-                console.log(err.message)
-            })
-
-            // fs.writeFile(loaderPath, beautify(imports), (myError) => {
-            //     if (myError) {
-            //         console.log(myError.message)
-            //     } else {
-            //         console.log("assets exported")
-            //     }
-            // })
-            //
-            // fs.writeFile(loaderPathDTS, "// type Declaration for module\n" +
-            //     "export const icons: { [index: string]: string };", (myError) => {
-            //     if (myError) {
-            //         console.log(myError.message)
-            //     } else {
-            //         console.log("module typescript support added")
-            //     }
-            // })
+            loadStrings(results)
+                .then(data => createExportObject(data))
+                .catch(err => {
+                    console.log(err.message)
+                })
         }
     }
 )
@@ -94,8 +76,72 @@ async function loadStrings(results) {
         return new Promise((resolve, reject) => {
             fs.readFile(file, 'utf-8', (err, data) => {
                 if (err) reject(err)
-                else resolve(data)
+                else {
+                    resolve({
+                        file: file,
+                        data: data
+                    })
+                }
             })
         })
     }))
+}
+
+function createExportObject(objects) {
+    let shorten = objects.map(x => x.file.replace(path.resolve(executionPath), ""))
+    let keys = shorten.map(x => x.substring(x.lastIndexOf("/") + 1))
+    keys = keys.map(x => x.substring(0, x.lastIndexOf(".")))
+    let prefix = shorten.map(x => x.substring(0, x.indexOf("/", 1)))
+    prefix = prefix.map(x => x.replace("/", ""))
+
+    for (let i = 0; i < keys.length; i++) {
+        keys[i] = prefix[i] + (prefix[i] ? "_" : "") + keys[i]
+    }
+    console.log(keys)
+
+    let paths = objects.map(x => stringify(x.data))
+    let stringifiedIcons = {}
+    for (let i = 0; i < keys.length; i++) {
+        stringifiedIcons[keys[i]] = paths[i]
+    }
+
+    // console.log(stringifiedIcons)
+    writeFiles(stringifiedIcons)
+}
+
+function stringify(svg) {
+    const parsed = parse(svg)
+    let base = parsed.children[0].properties
+    delete base.preserveAspectRatio
+    if (!parsed.children[0].children[0].properties.d) {
+        return 'null'
+    }
+    let path = parsed.children[0].children[0].properties.d
+    return shrinkPath(path, base)
+}
+
+function shrinkPath(path, base) {
+    const pathfiter = new pathfit(base, undefined, path)
+    return pathfiter.scale_with_aspect_ratio(base.width, base.height)
+}
+
+function writeFiles(imports) {
+    let myModule = "export const icons = " + JSON.stringify(imports)
+    myModule = beautify(myModule)
+    console.log(myModule)
+
+    let types = "// type Declaration for module\n" +
+        "export const icons: { [index: string]: string };"
+
+    fs.writeFile(loaderPath, myModule, "utf-8", err => {
+        if (err) {
+            console.log(err.message)
+        } else {
+            console.log("imports created")
+        }
+    })
+    fs.writeFile(loaderPathDTS, types, "utf-8", err => {
+        if (err) console.log(err.message)
+        else console.log("type declarations created")
+    })
 }
