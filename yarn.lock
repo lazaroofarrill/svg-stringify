@@ -138,6 +138,11 @@ path-is-absolute@^1.0.0:
   resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
   integrity sha1-F0uSaHNVNP+8es5r9TpanhtcX18=
 
+pathfit@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/pathfit/-/pathfit-1.0.3.tgz#62a65092eea69fee4d8682e1fa7a4fb800ffba95"
+  integrity sha512-HMjJO7kGQh1ZaxeqogZ1vJLRT4Bq+4mBhJ4gdF+ilpZL9Dnf1pltNwTOnCHbsqxPl8MAuWXeAYDlRx+Xpfyhrw==
+
 proto-list@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
@@ -157,6 +162,16 @@ sigmund@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/sigmund/-/sigmund-1.0.1.tgz#3ff21f198cad2175f9f3b781853fd94d0d19b590"
   integrity sha1-P/IfGYytIXX587eBhT/ZTQ0ZtZA=
+
+svg-parser@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/svg-parser/-/svg-parser-2.0.4.tgz#fdc2e29e13951736140b76cb122c8ee6630eb6b5"
+  integrity sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==
+
+svg64@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/svg64/-/svg64-1.1.0.tgz#51f2c9f52675c59fd921ed9bddc5169501664973"
+  integrity sha512-9qfEr8mXxA/sgoybuCfCM72iiRplE6J1qCpCtljr1+C/UccVvRxz/sHBf/JQ7tsuXSm+p02Al1mP4DreJB7Edw==
 
 wrappy@1:
   version "1.0.2"

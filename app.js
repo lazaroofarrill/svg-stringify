@@ -1,7 +1,11 @@
-let path = require('path')
-let fs = require('fs')
-let camelcase = require('camelcase')
-let beautify = require('js-beautify').js
+const path = require('path')
+const fs = require('fs');
+const camelcase = require('camelcase');
+const beautify = require('js-beautify').js;
+const {parse} = require('svg-parser')
+const pathfit = require('pathfit')
+const util = require('util')
+
 
 if (process.argv.length < 3) {
     process.exit(1);
@@ -38,90 +42,60 @@ function walk(dir, done) {
     })
 }
 
+
 if (executionPath.endsWith("/")) {
     executionPath = executionPath.substr(0, executionPath.length - 1)
 }
 const loaderPath = executionPath + `/import-${executionPath.substr(executionPath.lastIndexOf("/") + 1)}.js`
 const loaderPathDTS = executionPath + `/import-${executionPath.substr(executionPath.lastIndexOf("/") + 1)}.d.ts`
-const staticPath = executionPath + `/static-${executionPath.substr(executionPath.lastIndexOf("/") + 1)}.js`
 
 if (fs.existsSync(loaderPath)) {
     fs.unlinkSync(loaderPath)
 }
-if (fs.existsSync(staticPath)) {
-    fs.unlinkSync(staticPath)
-}
 
 walk(executionPath, (err, results) => {
-    if (err) console.log(err.message)
-    else {
-        let shorten = results.map(x => x.replace(path.resolve(executionPath), "."))
+        if (err) console.log(err.message)
+        else {
+            // let shorten = results.map(x => x.replace(path.resolve(executionPath), "."))
 
-        if (ext.length !== 0) {
-            shorten = shorten.filter(x => x.endsWith(ext))
+
+            let strings = []
+            results = results.filter(x => x.endsWith('.svg'))
+            loadStrings(results).then((data) => {
+
+            }).catch(err => {
+                console.log(err.message)
+            })
+
+            // fs.writeFile(loaderPath, beautify(imports), (myError) => {
+            //     if (myError) {
+            //         console.log(myError.message)
+            //     } else {
+            //         console.log("assets exported")
+            //     }
+            // })
+            //
+            // fs.writeFile(loaderPathDTS, "// type Declaration for module\n" +
+            //     "export const icons: { [index: string]: string };", (myError) => {
+            //     if (myError) {
+            //         console.log(myError.message)
+            //     } else {
+            //         console.log("module typescript support added")
+            //     }
+            // })
         }
-
-
-        let imports = ""
-        let importNames = []
-        shorten.forEach(x => {
-            let start = x.indexOf("./") + 2
-            let end = x.substring(start).indexOf("/") + 2
-            let prefix = x.substring(start, end)
-            prefix = camelcase(prefix)
-            let name = x.substring(x.lastIndexOf("/") + 1, x.lastIndexOf("."))
-            let sanitasize = `${prefix}_${name}`.split("-").join("_")
-            sanitasize = sanitasize.split(" ").join("_")
-            importNames.push(sanitasize)
-        })
-
-        for (let i = 0; i < shorten.length; i++) {
-            imports += `const ${importNames[i]} = require('${shorten[i]}')\n`
-        }
-        imports += "\nconst icons = {\n"
-        importNames.forEach(x => {
-            imports += `"${x}": ${x},\n`
-        })
-        imports += "}\n" +
-            "export { icons }\n"
-
-        imports += `export { `
-        importNames.forEach(x => {
-            imports += `${x}, `
-        })
-        imports += "}"
-
-        let statics = "export const staticIcons = {\n"
-        for (let i = 0; i < shorten.length; i++) {
-            statics += `'${importNames[i]}': '${root !== undefined ? root + "/" : ""}${shorten[i].substr(2)}', `
-        }
-
-        statics += "}"
-
-
-        fs.writeFile(loaderPath, beautify(imports), (myError) => {
-            if (myError) {
-                console.log(myError.message)
-            } else {
-                console.log("assets exported")
-            }
-        })
-
-        fs.writeFile(loaderPathDTS, "// type Declaration for module\n" +
-            "export const icons: { [index: string]: string };", (myError) => {
-            if (myError) {
-                console.log(myError.message)
-            } else {
-                console.log("module typescript support added")
-            }
-        })
-
-        fs.writeFile(staticPath, beautify(statics), (myError) => {
-            if (myError) {
-                console.log(myError.message)
-            } else {
-                console.log("statics exported")
-            }
-        })
     }
-})
+)
+
+const readFile = util.promisify(fs.readFile)
+
+async function loadStrings(results) {
+    return Promise.all(results.map(async (file) => {
+        return new Promise((resolve, reject) => {
+            fs.readFile(file, 'utf-8', (err, data) => {
+                if (err) reject(err)
+                else resolve(data)
+            })
+        })
+    }))
+}
