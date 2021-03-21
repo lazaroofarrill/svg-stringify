@@ -42,6 +42,7 @@ if (executionPath.endsWith("/")) {
     executionPath = executionPath.substr(0, executionPath.length - 1)
 }
 const loaderPath = executionPath + `/import-${executionPath.substr(executionPath.lastIndexOf("/") + 1)}.js`
+const loaderPathDTS = executionPath + `/import-${executionPath.substr(executionPath.lastIndexOf("/") + 1)}.d.ts`
 const staticPath = executionPath + `/static-${executionPath.substr(executionPath.lastIndexOf("/") + 1)}.js`
 
 if (fs.existsSync(loaderPath)) {
@@ -103,6 +104,15 @@ walk(executionPath, (err, results) => {
                 console.log(myError.message)
             } else {
                 console.log("assets exported")
+            }
+        })
+
+        fs.writeFile(loaderPathDTS, "// type Declaration for module\n" +
+            "export const icons: { [index: string]: string };", (myError) => {
+            if (myError) {
+                console.log(myError.message)
+            } else {
+                console.log("module typescript support added")
             }
         })
 
