@@ -3,12 +3,17 @@ let fs = require('fs')
 let camelcase = require('camelcase')
 let beautify = require('js-beautify').js
 
-let icons = []
 if (process.argv.length < 3) {
     process.exit(1);
 }
 let executionPath = process.argv[2]
 let root = process.argv[3]
+let ext = ""
+
+let idx = process.argv.findIndex(x => x === '-e')
+if (idx !== -1 && process.argv[idx + 1]) {
+    ext = process.argv[idx + 1]
+}
 
 function walk(dir, done) {
     let results = [];
@@ -50,6 +55,11 @@ walk(executionPath, (err, results) => {
     if (err) console.log(err.message)
     else {
         let shorten = results.map(x => x.replace(path.resolve(executionPath), "."))
+
+        if (ext.length !== 0) {
+            shorten = shorten.filter(x => x.endsWith(ext))
+        }
+
 
         let imports = ""
         let importNames = []
