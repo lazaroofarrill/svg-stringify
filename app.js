@@ -69,7 +69,9 @@ walk(executionPath, (err, results) => {
             let prefix = x.substring(start, end)
             prefix = camelcase(prefix)
             let name = x.substring(x.lastIndexOf("/") + 1, x.lastIndexOf("."))
-            importNames.push(`${prefix}_${name}`.split("-").join("_"))
+            let sanitasize = `${prefix}_${name}`.split("-").join("_")
+            sanitasize = sanitasize.split(" ").join("_")
+            importNames.push(sanitasize)
         })
 
         for (let i = 0; i < shorten.length; i++) {
