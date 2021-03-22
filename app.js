@@ -2,11 +2,11 @@
 
 const path = require('path')
 const fs = require('fs');
-const camelcase = require('camelcase');
 const beautify = require('js-beautify').js;
 const {parse} = require('svg-parser')
 const pathfit = require('pathfit')
 const util = require('util')
+const {ESLint} = require('eslint')
 
 
 if (process.argv.length < 3) {
@@ -142,6 +142,11 @@ function writeFiles(imports) {
             console.log(err.message)
         } else {
             console.log("imports created")
+
+            const linter = new ESLint({fix: true})
+            linter.lintFiles([loaderPath]).then(result => {
+                ESLint.outputFixes(result).then().catch(err => console.log(err.message))
+            }).catch(err => console.log(err.message))
         }
     })
     fs.writeFile(loaderPathDTS, types, "utf-8", err => {
