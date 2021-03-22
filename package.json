@@ -16,8 +16,6 @@
     "svg-parser": "^2.0.4"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
     "eslint": "^7.22.0"
   }
 }
