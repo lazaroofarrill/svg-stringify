@@ -35,4 +35,5 @@ Svg parsing library: [svg-parser](https://github.com/Rich-Harris/svg-parser)
 Beautifier: [js-beautify](https://github.com/beautify-web/js-beautify)
 
 
-Can only process single path SVG files. Can extract a nested path.
+It can now be used with multi path SVGs
+Working on support for primitives
