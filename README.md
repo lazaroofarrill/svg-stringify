@@ -22,3 +22,6 @@ Icon normalization: [pathfit library](https://github.com/ccprog/pathfit)
 Svg parsing library: [svg-parser](https://github.com/Rich-Harris/svg-parser)
 
 Beautifier: [js-beautify](https://github.com/beautify-web/js-beautify)
+
+
+Can only process single path SVG files. Can extract a nested path.
