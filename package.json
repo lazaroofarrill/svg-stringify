@@ -3,6 +3,9 @@
   "version": "2.0.3",
   "main": "app.js",
   "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "abs-svg-path": "^0.1.1",
     "camelcase": "^6.2.0",
