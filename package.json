@@ -4,19 +4,14 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js"
+    "start": "./app.js test"
   },
   "bin": {
     "svg-stringify": "app.js"
   },
   "dependencies": {
-    "abs-svg-path": "^0.1.1",
-    "camelcase": "^6.2.0",
     "js-beautify": "^1.13.5",
-    "normalize-svg-path": "^1.1.0",
-    "parse-svg-path": "^0.1.2",
     "pathfit": "^1.0.3",
-    "svg-parser": "^2.0.4",
-    "svg64": "^1.1.0"
+    "svg-parser": "^2.0.4"
   }
 }
