@@ -28,11 +28,13 @@ Works great with [jam icons](https://jam-icons.com).
 
 
 ### Attributions:
-Icon normalization: [pathfit library](https://github.com/ccprog/pathfit)
+Icon normalization library: [pathfit](https://github.com/ccprog/pathfit)
 
 Svg parsing library: [svg-parser](https://github.com/Rich-Harris/svg-parser)
 
 Beautifier: [js-beautify](https://github.com/beautify-web/js-beautify)
+
+Primitives to path converter: [element-to-path](https://github.com/elrumordelaluz/element-to-path)
 
 
 It can now be used with multi path SVGs
