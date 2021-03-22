@@ -8,7 +8,8 @@ const util = require('util')
 
 
 if (process.argv.length < 3) {
-    process.exit(1);
+    console.log("no arguments supplied. quitting")
+    process.exit(0);
 }
 let executionPath = process.argv[2]
 let root = process.argv[3]
