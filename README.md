@@ -4,6 +4,16 @@
 ---
 useful for replacing inline svg, without losing ability to change colors
 
+## Install
+```editorconfig
+npm install svg-stringifier
+
+#or
+
+yarn add svg-stringifier
+```
+
+## Run
 add script to your package.json
 
 ```editorconfig
