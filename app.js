@@ -122,7 +122,7 @@ function stringify(svg) {
 
 function shrinkPath(path, base) {
     const pathfiter = new pathfit(base, undefined, path)
-    return pathfiter.scale_with_aspect_ratio(base.width, base.height)
+    return pathfiter.scale_with_aspect_ratio(24, 24)
     // console.log(result)
 }
 
