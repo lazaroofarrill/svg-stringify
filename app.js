@@ -97,6 +97,7 @@ function createExportObject(objects) {
     keys = keys.map(x => x.substring(0, x.lastIndexOf(".")))
     let prefix = shorten.map(x => x.substring(0, x.indexOf("/", 1)))
     prefix = prefix.map(x => x.replace("/", ""))
+    prefix = prefix.map(x => x.replace("/", ""))
 
     for (let i = 0; i < keys.length; i++) {
         keys[i] = prefix[i] + (prefix[i] ? "_" : "") + keys[i]
