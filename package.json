@@ -13,7 +13,8 @@
   "dependencies": {
     "js-beautify": "^1.13.5",
     "pathfit": "^1.0.3",
-    "svg-parser": "^2.0.4"
+    "svg-parser": "^2.0.4",
+    "eslint": "^7.22.0"
   },
   "devDependencies": {
     "eslint": "^7.22.0"
