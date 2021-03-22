@@ -119,8 +119,6 @@ function stringify(svg) {
     let base = parsed.children[0].properties
     delete base.preserveAspectRatio
     let path = searchPath(parsed)
-    // console.log(beautify(JSON.stringify(path)))
-    // if (!path) return false
     // return shrinkPath(path, base)
     let pathString = path.join('&&')
     let pathCapitalized = pathString.charAt(0).toUpperCase() + pathString.slice(1)
