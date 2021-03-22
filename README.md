@@ -36,4 +36,5 @@ Beautifier: [js-beautify](https://github.com/beautify-web/js-beautify)
 
 
 It can now be used with multi path SVGs
+
 Working on support for primitives
