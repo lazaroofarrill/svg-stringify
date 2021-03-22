@@ -224,6 +224,11 @@ editorconfig@^0.15.3:
     semver "^5.6.0"
     sigmund "^1.0.1"
 
+element-to-path@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/element-to-path/-/element-to-path-1.2.0.tgz#5091c7961447917779c9742d602b0aceca8df17f"
+  integrity sha512-QURDQymbFRumDvYbBlgjFgIX8M4yfDHkSePRiuVAM1C6DyCKuDo4/G8oRubUyQum5uXcLr8fofuTl7z6bSSswA==
+
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"

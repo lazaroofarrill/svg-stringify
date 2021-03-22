@@ -7,7 +7,7 @@ const {parse} = require('svg-parser')
 const pathfit = require('pathfit')
 const util = require('util')
 const {ESLint} = require('eslint')
-
+const toPath = require('element-to-path')
 
 if (process.argv.length < 3) {
     console.log("no arguments supplied. quitting")
@@ -122,7 +122,9 @@ function stringify(svg) {
     // return shrinkPath(path, base)
     let pathString = path.join('&&')
     let pathCapitalized = pathString.charAt(0).toUpperCase() + pathString.slice(1)
-    pathCapitalized += `|${base.viewBox}`
+    if (base.viewBox) {
+        pathCapitalized += `|${base.viewBox}`
+    }
     // console.log(pathString)
     return pathCapitalized
 }
@@ -172,6 +174,14 @@ function searchPath(object) {
                 path += `@@${object.properties.transform}`
             }
             result.push(path)
+        } else if (
+            object.tagName === 'rect' ||
+            object.tagName === 'circle' ||
+            object.tagName === 'ellipse' ||
+            object.tagName === 'line' ||
+            object.tagName === 'polyline' ||
+            object.tagName === 'polygon') {
+            result.push(toPath(object, {nodeName: 'tagName', nodeAttrs: 'properties'}))
         }
     }
 
