@@ -119,8 +119,14 @@ function stringify(svg) {
     let base = parsed.children[0].properties
     delete base.preserveAspectRatio
     let path = searchPath(parsed)
-    if (!path) return false
-    return shrinkPath(path, base)
+    // console.log(beautify(JSON.stringify(path)))
+    // if (!path) return false
+    // return shrinkPath(path, base)
+    let pathString = path.join('&&')
+    let pathCapitalized = pathString.charAt(0).toUpperCase() + pathString.slice(1)
+    pathCapitalized += `|${base.viewBox}`
+    // console.log(pathString)
+    return pathCapitalized
 }
 
 function shrinkPath(path, base) {
@@ -156,18 +162,25 @@ function writeFiles(imports) {
 }
 
 function searchPath(object) {
+    // console.log(object)
+    let result = []
     if ("tagName" in object) {
         if (object.tagName === 'path') {
-            return object.properties.d
+            let path = object.properties.d
+            if (object.properties.style) {
+                path += `@@${object.properties.style}`
+            }
+            if (object.properties.transform) {
+                path += `@@${object.properties.transform}`
+            }
+            result.push(path)
         }
     }
+
     if ("children" in object) {
         for (let i = 0; i < object.children.length; i++) {
-            let result = searchPath(object.children[i])
-            if (result) {
-                return result
-            }
+            result = result.concat(searchPath(object.children[i]))
         }
     }
-    return false
+    return result
 }
