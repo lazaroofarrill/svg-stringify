@@ -22,8 +22,9 @@ svg-stringify {pathToSvgIcons}
 
 generates "import-SvgIconsFolder.js" and typescript module
 
-Can be used in [Quasar's](https://quasar.dev) iconMapFn to create custom icon sets
+Can be used in [Quasar's](https://quasar.dev) iconMapFn to create custom icon sets.
 
+Works great with [jam icons](https://jam-icons.com).
 
 
 ### Attributions:
