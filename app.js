@@ -60,6 +60,7 @@ walk(executionPath, (err, results) => {
 
             let strings = []
             results = results.filter(x => x.endsWith('.svg'))
+            results = results.filter(x => x.indexOf("node_modules") === -1)
             loadStrings(results)
                 .then(data => createExportObject(data))
                 .catch(err => {
@@ -97,7 +98,7 @@ function createExportObject(objects) {
     for (let i = 0; i < keys.length; i++) {
         keys[i] = prefix[i] + (prefix[i] ? "_" : "") + keys[i]
     }
-    console.log(keys)
+    // console.log(keys)
 
     let paths = objects.map(x => stringify(x.data))
     let stringifiedIcons = {}
@@ -105,30 +106,30 @@ function createExportObject(objects) {
         stringifiedIcons[keys[i]] = paths[i]
     }
 
-    // console.log(stringifiedIcons)
+    // console.debug(stringifiedIcons)
     writeFiles(stringifiedIcons)
 }
 
 function stringify(svg) {
     const parsed = parse(svg)
+    // console.log(beautify(JSON.stringify(parsed)))
     let base = parsed.children[0].properties
     delete base.preserveAspectRatio
-    if (!parsed.children[0].children[0].properties.d) {
-        return 'null'
-    }
-    let path = parsed.children[0].children[0].properties.d
+    let path = searchPath(parsed)
+    if (!path) return false
     return shrinkPath(path, base)
 }
 
 function shrinkPath(path, base) {
     const pathfiter = new pathfit(base, undefined, path)
     return pathfiter.scale_with_aspect_ratio(base.width, base.height)
+    // console.log(result)
 }
 
 function writeFiles(imports) {
     let myModule = "export const icons = " + JSON.stringify(imports)
     myModule = beautify(myModule)
-    console.log(myModule)
+    // console.log(myModule)
 
     let types = "// type Declaration for module\n" +
         "export const icons: { [index: string]: string };"
@@ -144,4 +145,21 @@ function writeFiles(imports) {
         if (err) console.log(err.message)
         else console.log("type declarations created")
     })
+}
+
+function searchPath(object) {
+    if ("tagName" in object) {
+        if (object.tagName === 'path') {
+            return object.properties.d
+        }
+    }
+    if ("children" in object) {
+        for (let i = 0; i < object.children.length; i++) {
+            let result = searchPath(object.children[i])
+            if (result) {
+                return result
+            }
+        }
+    }
+    return false
 }
