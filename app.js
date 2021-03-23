@@ -28,6 +28,13 @@ if (idx !== -1) {
     loadStyles = true
 }
 
+let applyTransforms
+idx = process.argv.findIndex(x => x === '--transforms')
+if (idx !== -1) {
+    applyTransforms = true
+}
+
+
 function walk(dir, done) {
     let results = [];
     fs.readdir(dir, function (err, list) {
@@ -176,7 +183,7 @@ function searchPath(object) {
             if (loadStyles && object.properties.style) {
                 path += `@@${object.properties.style}`
             }
-            if (object.properties.transform) {
+            if (applyTransforms && object.properties.transform) {
                 path += `@@${object.properties.transform}`
             }
             result.push(path)
