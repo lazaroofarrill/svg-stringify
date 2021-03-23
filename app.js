@@ -28,10 +28,10 @@ if (idx !== -1) {
     loadStyles = true
 }
 
-let applyTransforms
-idx = process.argv.findIndex(x => x === '--transforms')
+let applyTransforms = true
+idx = process.argv.findIndex(x => x === '--no-transforms')
 if (idx !== -1) {
-    applyTransforms = true
+    applyTransforms = false
 }
 
 
