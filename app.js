@@ -22,6 +22,12 @@ if (idx !== -1 && process.argv[idx + 1]) {
     ext = process.argv[idx + 1]
 }
 
+let loadStyles = false
+idx = process.argv.findIndex(x => x === '--styles')
+if (idx !== -1) {
+    loadStyles = true
+}
+
 function walk(dir, done) {
     let results = [];
     fs.readdir(dir, function (err, list) {
@@ -167,7 +173,7 @@ function searchPath(object) {
     if ("tagName" in object) {
         if (object.tagName === 'path') {
             let path = object.properties.d
-            if (object.properties.style) {
+            if (loadStyles && object.properties.style) {
                 path += `@@${object.properties.style}`
             }
             if (object.properties.transform) {
