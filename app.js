@@ -174,18 +174,13 @@ function writeFiles(imports) {
     })
 }
 
-function searchPath(object) {
-    // console.log(object)
+function searchPath(object, upperProperties = []) {
     let result = []
     if ("tagName" in object) {
         if (object.tagName === 'path') {
             let path = object.properties.d
-            if (loadStyles && object.properties.style) {
-                path += `@@${object.properties.style}`
-            }
-            if (applyTransforms && object.properties.transform) {
-                path += `@@${object.properties.transform}`
-            }
+            path = modifiers(path, object, upperProperties)
+
             result.push(path)
         } else if (
             object.tagName === 'rect' ||
@@ -194,14 +189,48 @@ function searchPath(object) {
             object.tagName === 'line' ||
             object.tagName === 'polyline' ||
             object.tagName === 'polygon') {
-            result.push(toPath(object, {nodeName: 'tagName', nodeAttrs: 'properties'}))
+            let path = toPath(object, {nodeName: 'tagName', nodeAttrs: 'properties'})
+            path = modifiers(path, object, upperProperties)
+
+            result.push(path)
         }
     }
 
     if ("children" in object) {
+        let downProps = upperProperties
+        if (object.properties && (object.properties.transform || object.properties.style)) {
+            downProps.push(object.properties)
+        }
+        console.log(downProps)
         for (let i = 0; i < object.children.length; i++) {
-            result = result.concat(searchPath(object.children[i]))
+            result = result.concat(searchPath(object.children[i], downProps))
         }
     }
     return result
+}
+
+function modifiers(path, object, upperProperties) {
+    if (loadStyles) {
+        if (object.properties.style) {
+            path += `@@${object.properties.style}`
+        }
+        for (let i = 0; i < upperProperties.length; i++) {
+            if (upperProperties[i].style) {
+                console.log('loading styles')
+                path += `@@${upperProperties[i].style}`
+            }
+        }
+    }
+    if (applyTransforms) {
+        if (object.properties.transform) {
+            path += `@@${object.properties.transform}`
+        }
+        for (let i = 0; i < upperProperties.length; i++) {
+            if (upperProperties[i].transform) {
+                console.log('loading transforms')
+                path += `@@${upperProperties[i].transform}`
+            }
+        }
+    }
+    return path
 }
