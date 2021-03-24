@@ -7,6 +7,7 @@
     "start": "./app.js test",
     "eslint": "eslint --fix"
   },
+  "homepage": "https://github.com/lazaroofarrill/svg-stringify#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/lazaroofarrill/svg-stringify.git"
