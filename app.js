@@ -197,7 +197,7 @@ function searchPath(object, upperProperties = []) {
     }
 
     if ("children" in object) {
-        let downProps = upperProperties
+        let downProps = JSON.parse(JSON.stringify(upperProperties))
         if (object.properties && (object.properties.transform || object.properties.style)) {
             downProps.push(object.properties)
         }
@@ -210,26 +210,28 @@ function searchPath(object, upperProperties = []) {
 }
 
 function modifiers(path, object, upperProperties) {
+    path += '@@'
     if (loadStyles) {
-        if (object.properties.style) {
-            path += `@@${object.properties.style}`
-        }
         for (let i = 0; i < upperProperties.length; i++) {
             if (upperProperties[i].style) {
                 // console.log('loading styles')
-                path += `@@${upperProperties[i].style}`
+                path += `${upperProperties[i].style}`
             }
         }
-    }
-    if (applyTransforms) {
-        if (object.properties.transform) {
-            path += `@@${object.properties.transform}`
+        if (object.properties.style) {
+            path += `${object.properties.style}`
         }
+    }
+    path += '@@'
+    if (applyTransforms) {
         for (let i = 0; i < upperProperties.length; i++) {
             if (upperProperties[i].transform) {
                 // console.log('loading transforms')
-                path += `@@${upperProperties[i].transform}`
+                path += `${upperProperties[i].transform}`
             }
+        }
+        if (object.properties.transform) {
+            path += `${object.properties.transform}`
         }
     }
     return path
