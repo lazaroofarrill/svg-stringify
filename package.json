@@ -1,6 +1,6 @@
 {
   "name": "svg-stringify",
-  "version": "3.2.4",
+  "version": "3.2.6",
   "main": "app.js",
   "license": "MIT",
   "scripts": {
