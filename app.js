@@ -119,8 +119,7 @@ function createExportObject(objects) {
     for (let i = 0; i < keys.length; i++) {
         keys[i] = prefix[i] + (prefix[i] ? "_" : "") + keys[i]
     }
-    console.log(keys)
-    console.log(prefix)
+
 
     let paths = objects.map(x => stringify(x.data))
     let stringifiedIcons = {}
