@@ -39,7 +39,5 @@ Primitives to path converter: [element-to-path](https://github.com/elrumordelalu
 
 It can now be used with multi path SVGs
 
-Lacks Window's paths naming convention support
-
 Styles are not included by default; to use them add
 `--styles` option
