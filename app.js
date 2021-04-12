@@ -111,10 +111,16 @@ function createExportObject(objects) {
     let prefix = shorten.map(x => x.substring(0, x.indexOf("/", 1)))
     prefix = prefix.map(x => x.replace("/", ""))
 
+    prefix = prefix.map(x => x.split("\\").join("-"))
+    keys = keys.map(x => x.split("\\").join("-"))
+    keys = keys.map(x => x.startsWith("-") ? x.substring(1) : x)
+
+
     for (let i = 0; i < keys.length; i++) {
         keys[i] = prefix[i] + (prefix[i] ? "_" : "") + keys[i]
     }
-    // console.log(keys)
+    console.log(keys)
+    console.log(prefix)
 
     let paths = objects.map(x => stringify(x.data))
     let stringifiedIcons = {}

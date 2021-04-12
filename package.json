@@ -4,7 +4,7 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
-    "start": "./app.js test",
+    "start": "node app.js test",
     "eslint": "eslint --fix"
   },
   "homepage": "https://github.com/lazaroofarrill/svg-stringify#readme",
